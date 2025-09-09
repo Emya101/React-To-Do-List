@@ -16,8 +16,7 @@ function App() {
         <h2 className={styles.Title}>To-Do App</h2>
       </header>
 
-      <div className={styles.AppContainer}><TodoForm onCreate={handleCreate}/></div>
-      {JSON.stringify(todos)}
+      <div className={styles.AppContainer}><TodoForm onCreate={handleCreate}/>{JSON.stringify(todos)}</div>
     </div>
   )
 }
