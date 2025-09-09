@@ -1,6 +1,6 @@
 import styles from './ToDoForm.module.css'
 
-export function TodoForm () {
+export function TodoForm ({onCreate}) {
 
     function handleSubmit(event){
         event.preventDefault();
@@ -11,7 +11,7 @@ export function TodoForm () {
             alert("Please fill out form name")
         );
 
-        console.log({
+       onCreate({
             name:elements.name.value,
             description: elements.description.value,
             deadline:elements.deadline.value,
@@ -20,6 +20,8 @@ export function TodoForm () {
             category: elements.category.value,
             completed: false,
         });
+
+        event.target.reset();
     }
     return(
         <section>
