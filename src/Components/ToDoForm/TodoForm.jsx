@@ -1,6 +1,9 @@
 import styles from './ToDoForm.module.css'
+import { useState } from 'react';
 
 export function TodoForm ({onCreate}) {
+    const [category, setCategory] = useState("");
+    const [customCategory, setCustom] = useState("");
 
     function handleSubmit(event){
         event.preventDefault();
@@ -8,8 +11,11 @@ export function TodoForm ({onCreate}) {
         const {elements}= event.target
 
         if(elements.name.value==="") return(
-            alert("Please fill out form name")
+            alert("Please fill out To-do name")
         );
+
+        const finalCategory=
+        category==="custom"? customCategory: elements.category.value;
 
        onCreate({
             name:elements.name.value,
@@ -17,11 +23,13 @@ export function TodoForm ({onCreate}) {
             deadline:elements.deadline.value,
             priority: elements.priority.value,
             status: elements.status.value,
-            category: elements.category.value,
+            category: finalCategory,
             completed: false,
         });
 
         event.target.reset();
+        setCategory("");
+        setCustom("");
     }
     return(
         <section>
@@ -81,8 +89,8 @@ export function TodoForm ({onCreate}) {
 
             
             <label htmlFor="category">Category</label>
-            <select defaultValue="" id="category" name="category">
-                {/* value={category} onChange={handleChange} */}
+            <select defaultValue="" id="category" name="category" value={category} onChange={(e)=>setCategory(e.target.value)}
+            >
                 <option value=" ">--Select Category--</option>
                 <option value="work">Work</option>
                 <option value="personal">Personal</option>
@@ -90,6 +98,15 @@ export function TodoForm ({onCreate}) {
                 <option value="shopping">Shopping</option>
                 <option value="custom">Other</option>
             </select>
+
+            {category==="custom" &&(
+                <input type="text"
+                placeholder="Enter Custom Category"
+                value={customCategory}
+                onChange={(e)=> setCustom(e.target.value)}
+                />
+            )}
+
             </div>
 
             <input type="submit" value="Add"/>
