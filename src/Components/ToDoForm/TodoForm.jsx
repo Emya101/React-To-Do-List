@@ -2,6 +2,7 @@ import styles from './ToDoForm.module.css'
 import { useState } from 'react';
 
 export function TodoForm ({onCreate}) {
+    const [showAllFields,setShowAllFields]=useState(false)
     const [category, setCategory] = useState("");
     const [customCategory, setCustom] = useState("");
 
@@ -15,14 +16,14 @@ export function TodoForm ({onCreate}) {
         );
 
         const finalCategory=
-        category==="custom"? customCategory: elements.category.value;
+        category==="custom"? customCategory: elements.category?.value ?? " ";
 
        onCreate({
             name:elements.name.value,
-            description: elements.description.value,
-            deadline:elements.deadline.value,
-            priority: elements.priority.value,
-            status: elements.status.value,
+            description: elements.description?.value ?? "",
+            deadline:elements.deadline?.value ?? "",
+            priority: elements.priority?.value ?? "none",
+            status: elements.status?.value ?? "Not-Started",
             category: finalCategory,
             completed: false,
         });
@@ -35,6 +36,9 @@ export function TodoForm ({onCreate}) {
         <section>
             <div className={styles.Title}>
             <h3>New To-Do</h3>
+            <button onClick={()=>setShowAllFields(!showAllFields)}>
+                {showAllFields ? "Hide" : "Show"} all fields
+                </button>
             </div>
 
             <form className={styles.Form} onSubmit= {handleSubmit}>
@@ -48,6 +52,8 @@ export function TodoForm ({onCreate}) {
                 </div>
                 
             
+            {showAllFields &&(
+            <>
             <div className={styles.FormField}>
             <textarea
                 aria-label="Description"
@@ -106,7 +112,8 @@ export function TodoForm ({onCreate}) {
                 onChange={(e)=> setCustom(e.target.value)}
                 />
             )}
-
+            </>
+            )}
             </div>
 
             <input type="submit" value="Add"/>

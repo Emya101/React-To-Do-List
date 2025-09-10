@@ -4,10 +4,10 @@
   gap: 4px;
 }
 
-.Title h3{
+.Title{
     display: flex;
-    justify-content: center;
-    padding: 10px;
+    justify-content:space-between;
+    padding: 15px;
 }
 
 .Form input[type="submit"] {
@@ -49,4 +49,8 @@
 
 .FormField textarea {
   resize: none;
+}
+
+.Title button{
+  align-self: center;
 }
