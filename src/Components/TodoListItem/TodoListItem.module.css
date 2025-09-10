@@ -1,0 +1,52 @@
+.TodoList span{
+  padding:0;
+}
+
+.TodoListItem[data-completed="true"] .Info {
+  text-decoration: line-through;
+}
+
+.Content {
+  display: flex;
+  gap: 4px;
+}
+
+.Status {
+  align-self: flex-start;
+  margin-top: 6px;
+}
+
+.Info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.Time{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Time p{
+  margin:0;
+
+}
+
+.Time p:nth-of-type(2){
+  color: gray ;
+}
+
+.Description {
+  font-size: 13px;
+  color: gray;
+}
+
+.AdditionalInfo {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0 4px;
+  font-size: 13px;
+  color: gray;
+}
