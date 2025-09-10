@@ -86,7 +86,8 @@ export function TodoForm ({onCreate}) {
 
             
             <label htmlFor="status">Status</label>
-            <select defaultValue="Not-Started" id="status" name="status">
+            <select defaultValue="" id="status" name="status">
+                <option value="">--Select Status--</option>
                 <option value="Not-Started">Not Started</option>
                 <option value="In-Progress">In-Progress</option>
                 <option value="Completed">Completed</option>
@@ -97,7 +98,7 @@ export function TodoForm ({onCreate}) {
             <label htmlFor="category">Category</label>
             <select defaultValue="" id="category" name="category" value={category} onChange={(e)=>setCategory(e.target.value)}
             >
-                <option value=" ">--Select Category--</option>
+                <option value="">--Select Category--</option>
                 <option value="work">Work</option>
                 <option value="personal">Personal</option>
                 <option value="school">School</option>
