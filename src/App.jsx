@@ -1,4 +1,4 @@
-import { TodoForm } from './Components/ToDoForm/TodoForm'
+import { TodoForm } from './Components/ToDo/TodoForm'
 import { useState } from 'react'
 import styles from './App.module.css'
 import { TodoList } from './Components/ToDoForm/TodoList/TodoList';
@@ -8,7 +8,7 @@ const TODOS_DEFAULT=[{
     name:"Buy an Ice Cream",
     description: "Buy the white/vanilla one",
     deadline:"2025-09-12",
-    priority: "High",
+    priority: "high",
     status: "Not-Started",
     category: "Work",
     completed: false,
@@ -18,7 +18,7 @@ const TODOS_DEFAULT=[{
     name:"Bring in my car",
     description: "The 2015 Lambo",
     deadline:"2025-10-12",
-    priority: "Medium",
+    priority: "medium",
     status: "Not-Started",
     category: "Personal",
     completed: false,
@@ -28,7 +28,7 @@ const TODOS_DEFAULT=[{
     name:"Finish this app",
     description: "Emoticonquotes",
     deadline:"2025-09-13",
-    priority: "High",
+    priority: "high",
     status: "Completed",
     category: "Work",
     completed: true,

@@ -1,4 +1,5 @@
 import styles from "./TodoList.module.css"
+import { PRIORITIES,PRIORITY_DEFAULT } from "../../../constants/priorities";
 
 export function TodoList({todos}){
     return(
@@ -10,13 +11,19 @@ export function TodoList({todos}){
                             <div className={styles.Content}>
                             <input type="checkbox" name="completed" defaultChecked={todo.completed} className={styles.Status}/>
                             <div className={styles.Info}>
-                            {todo.name}
+                            <div className={styles.Time}>
+                            <p>{todo.name}</p>
+                            <p>Created on {todo.createdAt}</p>
+                            </div> 
                             {todo.description && <span className={styles.Description}>{todo.description}</span>}
                             <div className={styles.AdditionalInfo}>
                             {todo.deadline}<br/>
-                            {todo.priority !== "none" && todo.priority}<br/>
+                            {todo.priority !== PRIORITY_DEFAULT && (<span style={{color:PRIORITIES[todo.priority].color}}>
+                                {PRIORITIES[todo.priority].label}
+                                </span>
+                            )}
                             {todo.status !="" && todo.status}<br/>
-                            {todo.category!="" && todo.category}<br/> {todo.createdAt}
+                            {todo.category!="" && todo.category}<br/>
                             </div>
                             </div> 
                             </div>
