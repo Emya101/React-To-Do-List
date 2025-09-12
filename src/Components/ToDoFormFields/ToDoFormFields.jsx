@@ -2,10 +2,7 @@ import { PRIORITIES, PRIORITY_DEFAULT } from "../../constants/priorities"
 import styles from "./ToDoFormFields.module.css"
 import { useState} from 'react';
 
-export function ToDoFormFields({ todo = {}, showAllFields = true}) {
-    const [category, setCategory] = useState(todo.category ?? "");
-    const [customCategory, setCustom] = useState(todo.customCategory||"");
-
+export function ToDoFormFields({ todo = {}, showAllFields = true ,category, setCategory, customCategory, setCustom }) {
     return (
 
         <div className={styles.FormFields}>

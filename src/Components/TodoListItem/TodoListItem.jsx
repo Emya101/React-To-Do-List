@@ -1,11 +1,15 @@
 import { PRIORITIES, PRIORITY_DEFAULT } from "../../constants/priorities"
 import { ToDoFormFields } from "../ToDoFormFields/ToDoFormFields";
 import styles from './TodoListItem.module.css'
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 export function TodoListItem({ todo, onUpdate }) {
 
     const [isEditing, setIsEditing] = useState(false);
+
+    const [category, setCategory] = useState(todo.category || "");
+    const [customCategory, setCustom] = useState(todo.customCategory || "");
+
 
     function handleCompleted(event) {
         onUpdate(todo.id, { ...todo, completed: event.target.checked })
@@ -41,7 +45,10 @@ export function TodoListItem({ todo, onUpdate }) {
     )
 
     const editingTemplate = <form>
-        <ToDoFormFields todo={todo} />
+        <ToDoFormFields todo={todo} category={category}
+            setCategory={setCategory}
+            customCategory={customCategory}
+            setCustom={setCustom} />
     </form>
 
     return (

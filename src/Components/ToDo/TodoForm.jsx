@@ -1,12 +1,19 @@
 import styles from './ToDoForm.module.css'
 import { PRIORITY_DEFAULT } from '../../constants/priorities';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { ToDoFormFields } from '../ToDoFormFields/ToDoFormFields';
 
-export function TodoForm({ onCreate }) {
+export function TodoForm({ onCreate,todo={} }) {
     const [showAllFields, setShowAllFields] = useState(false)
     const [category, setCategory] = useState("");
     const [customCategory, setCustom] = useState("");
+
+    useEffect(() => {
+         if (todo && todo.id) {
+            setCategory(todo.category || "")
+            setCustom(todo.customCategory || "")
+        } // only prefill for editing
+    } ,[todo])
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -17,14 +24,7 @@ export function TodoForm({ onCreate }) {
             alert("Please fill out To-do name")
         );
 
-        let finalCategory = "";
-        if (elements.category) {
-            if (elements.category.value === "custom") {
-                finalCategory = customCategory || ""; // blank if nothing typed
-            } else {
-                finalCategory = elements.category.value; // selected category
-            }
-        }
+       const finalCategory = category === "custom" ? customCategory || "" : category;
 
         onCreate({
             name: elements.name.value,
@@ -50,7 +50,11 @@ export function TodoForm({ onCreate }) {
             </div>
 
             <form className={styles.Form} onSubmit={handleSubmit}>
-                <ToDoFormFields showAllFields={showAllFields} />
+                <ToDoFormFields showAllFields={showAllFields} category={category}
+                    setCategory={setCategory}
+                    customCategory={customCategory}
+                    setCustom={setCustom}
+                />
                 <input type="submit" value="Add" />
             </form>
         </section>
