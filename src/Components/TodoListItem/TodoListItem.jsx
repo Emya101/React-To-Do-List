@@ -44,11 +44,17 @@ export function TodoListItem({ todo, onUpdate }) {
         </div>
     )
 
-    const editingTemplate = <form>
+    const editingTemplate = <form className={styles.Content} onReset={(()=>setIsEditing(false))} >
         <ToDoFormFields todo={todo} category={category}
             setCategory={setCategory}
             customCategory={customCategory}
             setCustom={setCustom} />
+
+        <div className={styles.Controls}>
+            <input type="submit" value="💾"/>
+            <input type="reset" value="❌"/>
+            
+        </div>
     </form>
 
     return (
