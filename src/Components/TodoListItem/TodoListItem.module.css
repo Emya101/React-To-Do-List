@@ -50,3 +50,14 @@
   font-size: 13px;
   color: gray;
 }
+  
+.Controls{
+    display: flex;
+    flex-wrap: nowrap;
+    gap:4px;
+    align-self: flex-start;
+}
+
+.Controls button{
+  font-size: 10px;
+}

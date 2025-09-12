@@ -5,6 +5,9 @@ import { ToDoFormFields } from '../ToDoFormFields/ToDoFormFields';
 
 export function TodoForm({ onCreate }) {
     const [showAllFields, setShowAllFields] = useState(false)
+    const [category, setCategory] = useState("");
+    const [customCategory, setCustom] = useState("");
+
     function handleSubmit(event) {
         event.preventDefault();
 
@@ -14,15 +17,21 @@ export function TodoForm({ onCreate }) {
             alert("Please fill out To-do name")
         );
 
-        const finalCategory =
-            category === "custom" ? customCategory : elements.category?.value ?? " ";
+        let finalCategory = "";
+        if (elements.category) {
+            if (elements.category.value === "custom") {
+                finalCategory = customCategory || ""; // blank if nothing typed
+            } else {
+                finalCategory = elements.category.value; // selected category
+            }
+        }
 
         onCreate({
             name: elements.name.value,
             description: elements.description?.value ?? "",
             deadline: elements.deadline?.value ?? "",
             priority: elements.priority?.value ?? PRIORITY_DEFAULT,
-            status: elements.status?.value ?? "Not-Started",
+            status: elements.status?.value ?? "",
             category: finalCategory,
             completed: false,
         });

@@ -10,7 +10,7 @@ const TODOS_DEFAULT=[{
     deadline:"2025-09-12",
     priority: "high",
     status: "Not-Started",
-    category: "Work",
+    category: "work",
     completed: false,
     createdAt:"2025-09-10, 10:45:22 a.m."
 },{
@@ -20,7 +20,7 @@ const TODOS_DEFAULT=[{
     deadline:"2025-10-12",
     priority: "medium",
     status: "Not-Started",
-    category: "Personal",
+    category: "personal",
     completed: false,
     createdAt:"2025-09-10, 10:47:22 a.m."
   },{
@@ -30,7 +30,7 @@ const TODOS_DEFAULT=[{
     deadline:"2025-09-13",
     priority: "high",
     status: "Completed",
-    category: "Work",
+    category: "work",
     completed: true,
     createdAt:"2025-10-10, 10:45:22 a.m."
   },{

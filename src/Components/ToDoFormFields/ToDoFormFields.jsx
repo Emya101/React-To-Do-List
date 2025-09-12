@@ -1,10 +1,10 @@
 import { PRIORITIES, PRIORITY_DEFAULT } from "../../constants/priorities"
 import styles from "./ToDoFormFields.module.css"
-import { useState } from 'react';
+import { useState} from 'react';
 
-export function ToDoFormFields({ showAllFields = true }) {
-    const [category, setCategory] = useState("");
-    const [customCategory, setCustom] = useState("");
+export function ToDoFormFields({ todo = {}, showAllFields = true}) {
+    const [category, setCategory] = useState(todo.category ?? "");
+    const [customCategory, setCustom] = useState(todo.customCategory||"");
 
     return (
 
@@ -14,7 +14,8 @@ export function ToDoFormFields({ showAllFields = true }) {
                     aria-label="Name*"
                     placeholder="Name*"
                     name="name"
-                    autoComplete="off" />
+                    autoComplete="off"
+                    defaultValue={todo.name} />
             </div>
 
 
@@ -26,6 +27,7 @@ export function ToDoFormFields({ showAllFields = true }) {
                             placeholder="Description"
                             name="description"
                             rows="4"
+                            defaultValue={todo.description}
                         />
                     </div>
 
@@ -36,12 +38,13 @@ export function ToDoFormFields({ showAllFields = true }) {
                                 id="deadline"
                                 name="deadline"
                                 min={new Date().toISOString().split("T")[0]}
+                                defaultValue={todo.deadline}
                             />
                         </div>
 
                         <div className={styles.FormField}>
                             <label htmlFor="priority">Priority</label>
-                            <select defaultValue={PRIORITY_DEFAULT} id="priority" name="priority">
+                            <select defaultValue={todo.priority ?? PRIORITY_DEFAULT} id="priority" name="priority" >
                                 {Object.entries(PRIORITIES).map(([key, { label }]) => (
                                     <option key={key} value={key}>{label}</option>
                                 ))}
@@ -51,7 +54,7 @@ export function ToDoFormFields({ showAllFields = true }) {
 
 
                     <label htmlFor="status">Status</label>
-                    <select defaultValue="" id="status" name="status">
+                    <select id="status" name="status" defaultValue={todo.status}>
                         <option value="">--Select Status--</option>
                         <option value="Not-Started">Not Started</option>
                         <option value="In-Progress">In-Progress</option>
@@ -61,8 +64,7 @@ export function ToDoFormFields({ showAllFields = true }) {
 
 
                     <label htmlFor="category">Category</label>
-                    <select defaultValue="" id="category" name="category" value={category} onChange={(e) => setCategory(e.target.value)}
-                    >
+                    <select id="category" name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
                         <option value="">--Select Category--</option>
                         <option value="work">Work</option>
                         <option value="personal">Personal</option>
