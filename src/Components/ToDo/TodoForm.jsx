@@ -1,12 +1,10 @@
 import styles from './ToDoForm.module.css'
-import { PRIORITIES,PRIORITY_DEFAULT } from '../../constants/priorities';
+import { PRIORITY_DEFAULT } from '../../constants/priorities';
 import { useState } from 'react';
+import { ToDoFormFields } from '../ToDoFormFields/ToDoFormFields';
 
 export function TodoForm ({onCreate}) {
     const [showAllFields,setShowAllFields]=useState(false)
-    const [category, setCategory] = useState("");
-    const [customCategory, setCustom] = useState("");
-
     function handleSubmit(event){
         event.preventDefault();
 
@@ -43,80 +41,7 @@ export function TodoForm ({onCreate}) {
             </div>
 
             <form className={styles.Form} onSubmit= {handleSubmit}>
-                <div className={styles.FormFields}>
-                <div className={styles.FormField}>
-                <input type="text"
-                aria-label="Name*"
-                placeholder="Name*"
-                name="name"
-                autoComplete="off"/>
-                </div>
-                
-            
-            {showAllFields &&(
-            <>
-            <div className={styles.FormField}>
-            <textarea
-                aria-label="Description"
-                placeholder="Description"
-                name="description"
-                rows="4"
-            />
-            </div>
-
-            <div className={styles.FormGroup}>
-                <div className={styles.FormField}>
-                    <label htmlFor="deadline">Deadline</label>
-                    <input type="date"
-                    id="deadline" 
-                    name="deadline"
-                    min={new Date().toISOString().split("T")[0]}
-                 />
-                </div>
-
-            <div className={styles.FormField}>
-            <label htmlFor="priority">Priority</label>
-            <select defaultValue={PRIORITY_DEFAULT} id="priority" name="priority">
-                {Object.entries(PRIORITIES).map(([key, {label}])=>(
-                    <option key={key} value={key}>{label}</option>
-                ) )}
-            </select>
-            </div>
-            </div>
-
-            
-            <label htmlFor="status">Status</label>
-            <select defaultValue="" id="status" name="status">
-                <option value="">--Select Status--</option>
-                <option value="Not-Started">Not Started</option>
-                <option value="In-Progress">In-Progress</option>
-                <option value="Completed">Completed</option>
-                
-            </select>
-
-            
-            <label htmlFor="category">Category</label>
-            <select defaultValue="" id="category" name="category" value={category} onChange={(e)=>setCategory(e.target.value)}
-            >
-                <option value="">--Select Category--</option>
-                <option value="work">Work</option>
-                <option value="personal">Personal</option>
-                <option value="school">School</option>
-                <option value="shopping">Shopping</option>
-                <option value="custom">Other</option>
-            </select>
-
-            {category==="custom" &&(
-                <input type="text"
-                placeholder="Enter Custom Category"
-                value={customCategory}
-                onChange={(e)=> setCustom(e.target.value)}
-                />
-            )}
-            </>
-            )}
-            </div>
-
+                <ToDoFormFields showAllFields={showAllFields}/>
             <input type="submit" value="Add"/>
             </form>
         </section>

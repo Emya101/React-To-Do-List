@@ -10,47 +10,10 @@
     padding: 15px;
 }
 
-.Form input[type="submit"] {
-  width: 100%;
-}
-
-.FormFields {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  gap: 7px;
-  margin-bottom: 20px;
-}
-
-.FormGroup {
-  display: flex;
-  gap: 4px;
-  align-items: flex-start;
-}
-
-.FormField {
-  display: flex;
-  flex-direction: row;
-  gap: 4px;
-  flex-grow: 1;
-  flex-basis: 50%;
-  justify-content: center;
-}
-
-.FormField label {
-  font-size: 14px;
-}
-
-.FormField input,
-.FormField textarea,
-.FormField select {
-  width: 100%;
-}
-
-.FormField textarea {
-  resize: none;
-}
-
 .Title button{
   align-self: center;
+}
+
+.Form input[type="submit"] {
+  width: 100%;
 }
