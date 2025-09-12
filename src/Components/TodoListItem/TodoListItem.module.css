@@ -1,5 +1,5 @@
-.TodoList span{
-  padding:0;
+.TodoList span {
+  padding: 0;
 }
 
 .TodoListItem[data-completed="true"] .Info {
@@ -22,19 +22,19 @@
   flex-grow: 1;
 }
 
-.Time{
-  display:flex;
+.Time {
+  display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.Time p{
-  margin:0;
+.Time p {
+  margin: 0;
 
 }
 
-.Time p:nth-of-type(2){
-  color: gray ;
+.Time p:nth-of-type(2) {
+  color: gray;
 }
 
 .Description {

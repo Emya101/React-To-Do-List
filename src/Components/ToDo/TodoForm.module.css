@@ -4,13 +4,13 @@
   gap: 4px;
 }
 
-.Title{
-    display: flex;
-    justify-content:space-between;
-    padding: 15px;
+.Title {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
 }
 
-.Title button{
+.Title button {
   align-self: center;
 }
 
