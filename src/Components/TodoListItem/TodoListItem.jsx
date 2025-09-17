@@ -15,6 +15,30 @@ export function TodoListItem({ todo, onUpdate }) {
         onUpdate(todo.id, { ...todo, completed: event.target.checked })
     }
 
+    function handleEdit(event){
+        event.preventDefault();
+
+        const { elements } = event.target
+
+        if (elements.name.value === "") return (
+            alert("Please fill out To-do name")
+        );
+
+       const finalCategory = category === "custom" ? customCategory || "" : category;
+
+        onUpdate(todo.id,{
+            name: elements.name.value,
+            description: elements.description.value,
+            deadline: elements.deadline.value,
+            priority: elements.priority.value,
+            status: elements.status.value ?? "",
+            category: finalCategory,
+            completed: todo.completed,
+        });
+
+        setIsEditing(false);
+    }
+
     const viewingTemplate = (
         <div className={styles.Content}>
             <input type="checkbox"
@@ -44,7 +68,7 @@ export function TodoListItem({ todo, onUpdate }) {
         </div>
     )
 
-    const editingTemplate = <form className={styles.Content} onReset={(()=>setIsEditing(false))} >
+    const editingTemplate = <form className={styles.Content} onReset={()=>setIsEditing(false)} onSubmit={handleEdit} >
         <ToDoFormFields todo={todo} category={category}
             setCategory={setCategory}
             customCategory={customCategory}
