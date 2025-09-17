@@ -48,6 +48,7 @@ const TODOS_DEFAULT = [{
 function App() {
 
   const [todos, setTodos] = useState(TODOS_DEFAULT);
+  const [filters, setFilters] = useState({ completed: "", priority: "" })
 
   function handleCreate(newTodo) {
     setTodos((prevTodos) => [...prevTodos, { id: `${prevTodos.length + 1}`, ...newTodo, createdAt: new Date().toLocaleString(), }])
@@ -60,6 +61,17 @@ function App() {
   function handleDelete(id) {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id))
   }
+
+  function filterTodos(todo) {
+    const { completed, priority } = filters;
+
+    return (
+      (completed === "" || todo.completed === completed)
+      &&
+      (priority === "" || todo.priority === priority)
+    );
+  }
+
   return (
     <div className={styles.App}>
       <header className={styles.Header}>
@@ -68,8 +80,8 @@ function App() {
       </header>
 
       <div className={styles.AppContainer}><TodoForm onCreate={handleCreate} />
-        <ToDoFilters/>
-        <TodoList todos={todos} onUpdate={handleUpdate} onDelete={handleDelete} />
+        <ToDoFilters onFilter={setFilters} />
+        <TodoList todos={todos.filter(filterTodos)} onUpdate={handleUpdate} onDelete={handleDelete} />
       </div>
     </div>
   )

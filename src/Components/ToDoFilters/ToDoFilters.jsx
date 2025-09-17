@@ -1,10 +1,18 @@
 import styles from "./ToDoFilters.module.css"
 import { COMPLETED_FILTERS,PRIORITY_FILTERS } from "../../constants/filters"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-export function ToDoFilters(){
+export function ToDoFilters({onFilter}){
     const [completed,setCompleted]=useState('all')
     const [priority, setPriority]= useState('all')
+
+    useEffect(()=>{
+        const filters={
+            completed:COMPLETED_FILTERS[completed].value,
+            priority:PRIORITY_FILTERS[priority].value,
+        }
+        onFilter(filters);
+    },[completed,priority])
 
     return(
         <section>
