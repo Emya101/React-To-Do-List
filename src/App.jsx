@@ -2,6 +2,7 @@ import { TodoForm } from './Components/ToDo/TodoForm'
 import { useState } from 'react'
 import styles from './App.module.css'
 import { TodoList } from './Components/ToDoForm/TodoList/TodoList';
+import { ToDoFilters } from './Components/ToDoFilters/ToDoFilters';
 
 const TODOS_DEFAULT = [{
   id: "1",
@@ -67,6 +68,7 @@ function App() {
       </header>
 
       <div className={styles.AppContainer}><TodoForm onCreate={handleCreate} />
+        <ToDoFilters/>
         <TodoList todos={todos} onUpdate={handleUpdate} onDelete={handleDelete} />
       </div>
     </div>
