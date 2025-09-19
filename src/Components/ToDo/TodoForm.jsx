@@ -20,11 +20,7 @@ export function TodoForm({ onCreate,todo={} }) {
 
         const { elements } = event.target
 
-        if (elements.name.value === "") return (
-            alert("Please fill out To-do name")
-        );
-
-       const finalCategory = category === "custom" ? customCategory || "" : category;
+        const finalCategory = category === "custom" ? customCategory || "" : category;
 
         onCreate({
             name: elements.name.value,

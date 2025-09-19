@@ -1,8 +1,8 @@
 import { PRIORITIES, PRIORITY_DEFAULT } from "../../constants/priorities"
 import styles from "./ToDoFormFields.module.css"
-import { useState} from 'react';
+import { useState } from 'react';
 
-export function ToDoFormFields({ todo = {}, showAllFields = true ,category, setCategory, customCategory, setCustom }) {
+export function ToDoFormFields({ todo = {}, showAllFields = true, category, setCategory, customCategory, setCustom }) {
     return (
 
         <div className={styles.FormFields}>
@@ -12,7 +12,9 @@ export function ToDoFormFields({ todo = {}, showAllFields = true ,category, setC
                     placeholder="Name*"
                     name="name"
                     autoComplete="off"
-                    defaultValue={todo.name} />
+                    defaultValue={todo.name}
+                    required
+                />
             </div>
 
 
@@ -25,6 +27,9 @@ export function ToDoFormFields({ todo = {}, showAllFields = true ,category, setC
                             name="description"
                             rows="4"
                             defaultValue={todo.description}
+                            required
+                            minLength={3}
+                            maxLength={50}
                         />
                     </div>
 
@@ -36,6 +41,7 @@ export function ToDoFormFields({ todo = {}, showAllFields = true ,category, setC
                                 name="deadline"
                                 min={new Date().toISOString().split("T")[0]}
                                 defaultValue={todo.deadline}
+                                maxLength={200}
                             />
                         </div>
 
