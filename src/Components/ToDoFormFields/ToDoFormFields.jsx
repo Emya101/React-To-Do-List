@@ -2,7 +2,7 @@ import { PRIORITIES, PRIORITY_DEFAULT } from "../../constants/priorities"
 import styles from "./ToDoFormFields.module.css"
 import { useState } from 'react';
 
-export function ToDoFormFields({ todo = {}, showAllFields = true, category, setCategory, customCategory, setCustom }) {
+export function ToDoFormFields({ todo = {}, showAllFields = true, category, setCategory, customCategory, setCustom, register }) {
     return (
 
         <div className={styles.FormFields}>
@@ -10,10 +10,9 @@ export function ToDoFormFields({ todo = {}, showAllFields = true, category, setC
                 <input type="text"
                     aria-label="Name*"
                     placeholder="Name*"
-                    name="name"
                     autoComplete="off"
                     defaultValue={todo.name}
-                    required
+                    {...register("name", { required: true, minLength: 3, maxLength: 50 })}
                 />
             </div>
 
@@ -24,12 +23,9 @@ export function ToDoFormFields({ todo = {}, showAllFields = true, category, setC
                         <textarea
                             aria-label="Description"
                             placeholder="Description"
-                            name="description"
                             rows="4"
                             defaultValue={todo.description}
-                            required
-                            minLength={3}
-                            maxLength={50}
+                            {...register("description", { maxLength: 200 })}
                         />
                     </div>
 
@@ -38,16 +34,20 @@ export function ToDoFormFields({ todo = {}, showAllFields = true, category, setC
                             <label htmlFor="deadline">Deadline</label>
                             <input type="date"
                                 id="deadline"
-                                name="deadline"
-                                min={new Date().toISOString().split("T")[0]}
                                 defaultValue={todo.deadline}
-                                maxLength={200}
+                                {...register("deadline", !todo.id &&
+                                    { min: new Date().toISOString().split("T")[0] }
+                                )}
                             />
                         </div>
 
                         <div className={styles.FormField}>
                             <label htmlFor="priority">Priority</label>
-                            <select defaultValue={todo.priority ?? PRIORITY_DEFAULT} id="priority" name="priority" >
+                            <select defaultValue={todo.priority ?? PRIORITY_DEFAULT}
+                                id="priority"
+                                name="priority"
+                                {...register("priority")}
+                            >
                                 {Object.entries(PRIORITIES).map(([key, { label }]) => (
                                     <option key={key} value={key}>{label}</option>
                                 ))}
@@ -57,7 +57,7 @@ export function ToDoFormFields({ todo = {}, showAllFields = true, category, setC
 
 
                     <label htmlFor="status">Status</label>
-                    <select id="status" name="status" defaultValue={todo.status}>
+                    <select id="status" name="status" defaultValue={todo.status} {...register("status")}>
                         <option value="">--Select Status--</option>
                         <option value="Not-Started">Not Started</option>
                         <option value="In-Progress">In-Progress</option>

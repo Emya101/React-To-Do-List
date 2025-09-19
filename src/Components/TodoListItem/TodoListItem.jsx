@@ -1,7 +1,8 @@
 import { PRIORITIES, PRIORITY_DEFAULT } from "../../constants/priorities"
+import { useForm } from "react-hook-form";
 import { ToDoFormFields } from "../ToDoFormFields/ToDoFormFields";
 import styles from './TodoListItem.module.css'
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export function TodoListItem({ todo, onUpdate, onDelete }) {
 
@@ -10,30 +11,20 @@ export function TodoListItem({ todo, onUpdate, onDelete }) {
     const [category, setCategory] = useState(todo.category || "");
     const [customCategory, setCustom] = useState(todo.customCategory || "");
 
+    const { register, handleSubmit } = useForm()
+
 
     function handleCompleted(event) {
         onUpdate(todo.id, { ...todo, completed: event.target.checked })
     }
 
-    function handleEdit(event){
-        event.preventDefault();
+    function handleEdit(data) {
+        const finalCategory = category === "custom" ? customCategory || "" : category;
 
-        const { elements } = event.target
-
-        if (elements.name.value === "") return (
-            alert("Please fill out To-do name")
-        );
-
-       const finalCategory = category === "custom" ? customCategory || "" : category;
-
-        onUpdate(todo.id,{
-            name: elements.name.value,
-            description: elements.description.value,
-            deadline: elements.deadline.value,
-            priority: elements.priority.value,
-            status: elements.status.value ?? "",
-            category: finalCategory,
-            completed: todo.completed,
+        onUpdate(todo.id, {
+            ...todo,        // keep old values
+            ...data,        // overwrite with form values
+            category: finalCategory, // ensure category is correct
         });
 
         setIsEditing(false);
@@ -64,21 +55,22 @@ export function TodoListItem({ todo, onUpdate, onDelete }) {
             </div>
             <div className={styles.Controls}>
                 <button title="Edit task" onClick={() => setIsEditing(true)} >✏️</button>
-                <button title="Delete task" onClick={()=> onDelete(todo.id)}>🗑️</button>
+                <button title="Delete task" onClick={() => onDelete(todo.id)}>🗑️</button>
             </div>
         </div>
     )
 
-    const editingTemplate = <form className={styles.Content} onReset={()=>setIsEditing(false)} onSubmit={handleEdit} >
+    const editingTemplate = <form className={styles.Content} onReset={() => setIsEditing(false)} onSubmit={handleSubmit(handleEdit)} >
         <ToDoFormFields todo={todo} category={category}
             setCategory={setCategory}
             customCategory={customCategory}
-            setCustom={setCustom} />
+            setCustom={setCustom}
+            register={register} />
 
         <div className={styles.Controls}>
-            <input type="submit" value="💾"/>
-            <input type="reset" value="❌"/>
-            
+            <input type="submit" value="💾" />
+            <input type="reset" value="❌" />
+
         </div>
     </form>
 

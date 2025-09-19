@@ -1,38 +1,38 @@
 import styles from './ToDoForm.module.css'
+import { useForm } from 'react-hook-form';
 import { PRIORITY_DEFAULT } from '../../constants/priorities';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ToDoFormFields } from '../ToDoFormFields/ToDoFormFields';
 
-export function TodoForm({ onCreate,todo={} }) {
+export function TodoForm({ onCreate, todo = {} }) {
     const [showAllFields, setShowAllFields] = useState(false)
     const [category, setCategory] = useState("");
     const [customCategory, setCustom] = useState("");
 
+    const { register, handleSubmit, reset } = useForm({
+        defaultValues:{
+            description:"",
+            deadline:"",
+            priority:PRIORITY_DEFAULT,
+            status:"",
+            completed:false
+        }
+    })
+
     useEffect(() => {
-         if (todo && todo.id) {
+        if (todo && todo.id) {
             setCategory(todo.category || "")
             setCustom(todo.customCategory || "")
         } // only prefill for editing
-    } ,[todo])
+    }, [todo])
 
-    function handleSubmit(event) {
-        event.preventDefault();
-
-        const { elements } = event.target
-
+    function handleCreate(data) {
         const finalCategory = category === "custom" ? customCategory || "" : category;
 
-        onCreate({
-            name: elements.name.value,
-            description: elements.description?.value ?? "",
-            deadline: elements.deadline?.value ?? "",
-            priority: elements.priority?.value ?? PRIORITY_DEFAULT,
-            status: elements.status?.value ?? "",
+        onCreate(data,{
             category: finalCategory,
-            completed: false,
         });
-
-        event.target.reset();
+        reset();
         setCategory("");
         setCustom("");
     }
@@ -45,11 +45,12 @@ export function TodoForm({ onCreate,todo={} }) {
                 </button>
             </div>
 
-            <form className={styles.Form} onSubmit={handleSubmit}>
+            <form className={styles.Form} onSubmit={handleSubmit(handleCreate)}>
                 <ToDoFormFields showAllFields={showAllFields} category={category}
                     setCategory={setCategory}
                     customCategory={customCategory}
                     setCustom={setCustom}
+                    register={register}
                 />
                 <input type="submit" value="Add" />
             </form>
