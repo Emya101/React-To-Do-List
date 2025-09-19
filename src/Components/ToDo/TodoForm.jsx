@@ -9,7 +9,7 @@ export function TodoForm({ onCreate, todo = {} }) {
     const [category, setCategory] = useState("");
     const [customCategory, setCustom] = useState("");
 
-    const { register, handleSubmit, reset } = useForm({
+    const { register, handleSubmit, reset, formState:{errors} } = useForm({
         defaultValues:{
             description:"",
             deadline:"",
@@ -51,6 +51,7 @@ export function TodoForm({ onCreate, todo = {} }) {
                     customCategory={customCategory}
                     setCustom={setCustom}
                     register={register}
+                    errors={errors}
                 />
                 <input type="submit" value="Add" />
             </form>

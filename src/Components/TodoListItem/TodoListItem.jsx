@@ -11,7 +11,7 @@ export function TodoListItem({ todo, onUpdate, onDelete }) {
     const [category, setCategory] = useState(todo.category || "");
     const [customCategory, setCustom] = useState(todo.customCategory || "");
 
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: {errors} } = useForm({defaultValues: todo})
 
 
     function handleCompleted(event) {
@@ -65,7 +65,8 @@ export function TodoListItem({ todo, onUpdate, onDelete }) {
             setCategory={setCategory}
             customCategory={customCategory}
             setCustom={setCustom}
-            register={register} />
+            register={register}
+            errors= {errors}/>
 
         <div className={styles.Controls}>
             <input type="submit" value="💾" />
