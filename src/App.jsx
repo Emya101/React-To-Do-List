@@ -106,12 +106,14 @@ function App() {
   }
 
   function filterTodos(todo) {
-    const { completed, priority } = filters;
+    const { completed, priority,category } = filters;
 
     return (
       (completed === "" || todo.completed === completed)
       &&
       (priority === "" || todo.priority === priority)
+      &&
+      (category === "" || todo.category === category)
     );
   }
 
@@ -123,7 +125,7 @@ function App() {
       </header>
 
       <div className={styles.AppContainer}><TodoForm onCreate={handleCreate} />
-        <ToDoFilters onFilter={setFilters} />
+        <ToDoFilters onFilter={setFilters} todos={todos} />
         <TodoList todos={todos.filter(filterTodos)} onUpdate={handleUpdate} onDelete={handleDelete} />
       </div>
     </div>

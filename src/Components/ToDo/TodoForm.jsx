@@ -32,9 +32,11 @@ export function TodoForm({ onCreate, todo = {} }) {
     function handleCreate(data) {
         const finalCategory = category === "custom" ? customCategory || "" : category;
 
-        onCreate(data,{
+        onCreate({...data,
             category: finalCategory,
-        });
+            customCategory: category === "custom" ? customCategory : "",
+        }
+        );
         reset();
         setCategory("");
         setCustom("");
