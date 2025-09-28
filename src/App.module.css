@@ -23,7 +23,9 @@
 .AppContainer {
   width: 100%;
   padding: 16px;
-  background: light-dark(#ffffff, #212121);
+  background-color: var(--app-bg);
+  color: var(--app-text);
   border-radius: 16px;
   overflow-y: auto;
+  transition: background-color 0.3s, color 0.3s;
 }

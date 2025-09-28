@@ -36,7 +36,7 @@ export function ToDoFilters({ onFilter, todos = [] }) {
                             {label}
                         </option>
                     )}
-                </select>
+                </select><br/>
 
                 <label htmlFor="priority">Priority </label>
                 <select id="priority" defaultValue={priority} onChange={(event) => setPriority(event.target.value)}>
@@ -45,7 +45,7 @@ export function ToDoFilters({ onFilter, todos = [] }) {
                             {label}
                         </option>
                     )}
-                </select>
+                </select><br/>
 
                 <label htmlFor="category">Category</label>
                 <select value={category} onChange={(event) => setCategory(event.target.value)}>
@@ -53,7 +53,7 @@ export function ToDoFilters({ onFilter, todos = [] }) {
                     {allCategories.map(category => (
                         <option key={category} value={category}>{category}</option>
                     ))}
-                </select>
+                </select><br/>
             </div>
         </section>
     )

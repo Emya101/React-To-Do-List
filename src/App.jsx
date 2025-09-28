@@ -3,6 +3,7 @@ import { useState } from 'react'
 import styles from './App.module.css'
 import { TodoList } from './Components/ToDoForm/TodoList/TodoList';
 import { ToDoFilters } from './Components/ToDoFilters/ToDoFilters';
+import { set } from 'react-hook-form';
 
 const TODOS_DEFAULT = [{
   id: "1",
@@ -52,6 +53,15 @@ function App() {
 
   const [todos, setTodos] = useState(TODOS_DEFAULT);
   const [filters, setFilters] = useState({ completed: "", priority: "" })
+  const [theme, setTheme] = useState("light");
+
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+
+    // Toggle a class on the body
+    document.body.classList.toggle("dark-mode", newTheme === "dark");
+  }
 
   function handleCreate(newTodo) {
     const status = newTodo.status || "Not-Started";
@@ -106,7 +116,7 @@ function App() {
   }
 
   function filterTodos(todo) {
-    const { completed, priority,category } = filters;
+    const { completed, priority, category } = filters;
 
     return (
       (completed === "" || todo.completed === completed)
@@ -118,10 +128,18 @@ function App() {
   }
 
   return (
-    <div className={styles.App}>
+    <div className={`${styles.App} ${styles[theme]}}`}>
       <header className={styles.Header}>
         <img className={styles.Logo} src="/to-do-list.png" />
-        <h2 className={styles.Title}>To-Do App</h2>
+        <span>
+          <h2 className={styles.Title}>To-Do App</h2>
+
+          <button onClick={toggleTheme}>
+            {theme === "light" ? "Switch to 🌑Dark Mode" : "Switch to ☀️Light Mode"}
+
+
+          </button>
+        </span>
       </header>
 
       <div className={styles.AppContainer}><TodoForm onCreate={handleCreate} />

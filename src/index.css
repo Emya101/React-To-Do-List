@@ -1,16 +1,25 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --bg-color: #ffffff;
+  --text-color: #0d0d0d;
+  --primary-color: #0077ff;
+  --app-bg: #f1f1f1;       /* App container background */
+  --app-text: #1b1b1b;
+  --card-bg: #ffffff;
+  --input-bg: #f8f8f8;
+  --border-color: #ccc;
+}
 
-  color-scheme: light dark;
-  color: light-dark(#0d0d0d, #ececec);
-  background: light-dark(#f3f3f3, #171717);
+body.dark-mode {
+  --bg-color: #121212;        /* dark background */
+  --text-color: #f0e9e9;      /* light text */
+  --primary-color: #3399ff;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+   --app-bg: #222222;       /* Inverted color for App container */
+  --app-text: #d1d1d1;
+
+  --card-bg: #1e1e1e;         /* dark card background */
+  --input-bg: #868686;        /* input fields dark */
+  --border-color: #555;       /* darker borders */
 }
 
 * {
@@ -18,11 +27,21 @@
 }
 
 body {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--text-color);
+  background: var(--bg-color);
   width: 100%;
   max-width: 640px;
   min-height: 100vh;
   margin: 0 auto;
   padding: 0 24px;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 ul {
@@ -34,4 +53,10 @@ ul {
 input[aria-invalid="true"],textarea[aria-invalid="true"],select[aria-invalid="true"]{
   border-color:salmon;
   outline-color: salmon;
+}
+
+input, textarea, select {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
 }
