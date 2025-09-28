@@ -17,7 +17,7 @@ export function TodoListItem({ todo, onUpdate, onDelete }) {
 
 
     function handleCompleted(event) {
-        onUpdate(todo.id, { ...todo, completed: event.target.checked })
+        onUpdate(todo.id, {completed: event.target.checked })
     }
 
     function handleEdit(data) {
@@ -42,7 +42,7 @@ export function TodoListItem({ todo, onUpdate, onDelete }) {
             <div className={styles.Info}>
                 <div className={styles.Time}>
                     <p>{todo.name}</p>
-                    <p>Created on {todo.createdAt}</p>
+                    {todo.createdAt && (<p>Created on {todo.createdAt}</p>)}
                 </div>
                 {todo.description && <span className={styles.Description}>{todo.description}</span>}
                 <div className={styles.AdditionalInfo}>

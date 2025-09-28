@@ -13,6 +13,7 @@ const TODOS_DEFAULT = [{
   status: "Not-Started",
   category: "work",
   completed: false,
+  previousStatus: "Not-Started",
   createdAt: "2025-09-10, 10:45:22 a.m."
 }, {
   id: "2",
@@ -23,6 +24,7 @@ const TODOS_DEFAULT = [{
   status: "Not-Started",
   category: "personal",
   completed: false,
+  previousStatus: "Not-Started",
   createdAt: "2025-09-10, 10:47:22 a.m."
 }, {
   id: "3",
@@ -33,6 +35,7 @@ const TODOS_DEFAULT = [{
   status: "Completed",
   category: "work",
   completed: true,
+  previousStatus: "In-Progress",
   createdAt: "2025-10-10, 10:45:22 a.m."
 }, {
   id: "4",
@@ -51,12 +54,52 @@ function App() {
   const [filters, setFilters] = useState({ completed: "", priority: "" })
 
   function handleCreate(newTodo) {
-    setTodos((prevTodos) => [...prevTodos, { id: `${prevTodos.length + 1}`, ...newTodo, createdAt: new Date().toLocaleString(), }])
+    const status = newTodo.status || "Not-Started";
+
+    setTodos((prevTodos) => [...prevTodos, {
+      id: `${prevTodos.length + 1}`, ...newTodo,
+      status,
+      completed: status === "Completed",
+      previousStatus: status === "Completed" ? "Not-Started" : status,
+      createdAt: new Date().toLocaleString(),
+    }])
+    console.log(newTodo);
   }
 
-  function handleUpdate(id, newTodo) {
-    setTodos((prevTodos) => prevTodos.map((todo) => todo.id === id ? newTodo : todo))
+  function handleUpdate(id, changes) {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) => {
+        if (todo.id !== id) return todo;
+
+        let merged = { ...todo, ...changes };
+
+        if (changes.status) {
+          if (changes.status === "Completed") {
+            merged.completed = true;
+            merged.previousStatus =
+              todo.status !== "Completed" ? todo.status : todo.previousStatus;
+          }
+          else {
+            merged.completed = false;
+            merged.previousStatus = changes.status;
+          }
+        }
+
+        if ("completed" in changes && !("status" in changes)) {
+          if (changes.completed) {
+            merged.previousStatus =
+              todo.status != "Completed" ? todo.status : todo.previousStatus;
+            merged.status = "Completed";
+          }
+          else {
+            merged.status = todo.previousStatus || "Not-Started";
+          }
+        }
+        return merged;
+      })
+    );
   }
+
 
   function handleDelete(id) {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id))
