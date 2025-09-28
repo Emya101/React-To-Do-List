@@ -2,6 +2,8 @@ import { PRIORITIES, PRIORITY_DEFAULT } from "../../constants/priorities"
 import { useForm } from "react-hook-form";
 import { ToDoFormFields } from "../ToDoFormFields/ToDoFormFields";
 import styles from './TodoListItem.module.css'
+import {yupResolver} from "@hookform/resolvers/yup";
+import { getTodoSchema } from "../../schemas/todo";
 import { useState, useEffect } from "react";
 
 export function TodoListItem({ todo, onUpdate, onDelete }) {
@@ -11,7 +13,7 @@ export function TodoListItem({ todo, onUpdate, onDelete }) {
     const [category, setCategory] = useState(todo.category || "");
     const [customCategory, setCustom] = useState(todo.customCategory || "");
 
-    const { register, handleSubmit, formState: {errors} } = useForm({defaultValues: todo})
+    const { register, handleSubmit, formState: {errors} } = useForm({resolver:yupResolver(getTodoSchema()),defaultValues: todo})
 
 
     function handleCompleted(event) {

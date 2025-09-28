@@ -1,5 +1,5 @@
 import { PRIORITIES, PRIORITY_DEFAULT } from "../../constants/priorities"
-import styles from "./ToDoFormFields.module.css"
+import styles from "./ToDoFormFields.module.css";
 import { useState } from 'react';
 
 export function ToDoFormFields({ todo = {}, showAllFields = true, category, setCategory, customCategory, setCustom, register, errors = {} }) {
@@ -13,18 +13,7 @@ export function ToDoFormFields({ todo = {}, showAllFields = true, category, setC
                     autoComplete="off"
                     defaultValue={todo.name}
                     aria-invalid={!!errors.name}
-                    {...register("name", {
-                        required: "Name is required",
-                        minLength:
-                        {
-                            value: 3,
-                            message: "Name should be min length of 3 characters"
-                        },
-                        maxLength: {
-                            value: 50,
-                            message: "Name should be max length of 50 characters"
-                        }
-                    })}
+                    {...register("name")}
                 />
                 {!!errors.name && (<span className={styles.FormFieldError}>{errors.name.message}</span>)}
             </div>
@@ -39,12 +28,7 @@ export function ToDoFormFields({ todo = {}, showAllFields = true, category, setC
                             rows="4"
                             defaultValue={todo.description}
                             aria-invalid={!!errors.description}
-                            {...register("description", {
-                                maxLength: {
-                                    value: 200,
-                                    message: "Description can only be a max of 200 characters"
-                                }
-                            })}
+                            {...register("description")}
                         />
                         {!!errors.description && (<span className={styles.FormFieldError}>{errors.description.message}</span>)}
                     </div>
@@ -56,12 +40,13 @@ export function ToDoFormFields({ todo = {}, showAllFields = true, category, setC
                                 id="deadline"
                                 defaultValue={todo.deadline}
                                 aria-invalid={!!errors.deadline}
-                                {...register("deadline", {
-                                    min: !todo.id &&{
-                                    value: new Date().toISOString().split("T")[0],
-                                    message: "Deadline can't be in the past"
-                                }
-                                })}
+                                {...register("deadline")}
+                                // {...register("deadline", {
+                                //     min: !todo.id && {
+                                //         value: new Date().toISOString().split("T")[0],
+                                //         message: "Deadline can't be in the past"
+                                //     }
+                                // })}
 
                             />
                             {!!errors.deadline && (
@@ -71,13 +56,10 @@ export function ToDoFormFields({ todo = {}, showAllFields = true, category, setC
                         <div className={styles.FormField}>
                             <label htmlFor="priority">Priority</label>
                             <select defaultValue={todo.priority ?? PRIORITY_DEFAULT}
-                            aria-invalid={!!errors.priority}
+                                aria-invalid={!!errors.priority}
                                 id="priority"
                                 name="priority"
-                                {...register("priority",{
-                                    validate:(value)=>
-                                        Object.keys(PRIORITIES).includes(value)||"Priority is not valid value",
-                                })}
+                                {...register("priority")}
                             >
                                 {Object.entries(PRIORITIES).map(([key, { label }]) => (
                                     <option key={key} value={key}>{label}</option>

@@ -2,6 +2,8 @@ import styles from './ToDoForm.module.css'
 import { useForm } from 'react-hook-form';
 import { PRIORITY_DEFAULT } from '../../constants/priorities';
 import { useState, useEffect } from 'react';
+import {yupResolver} from "@hookform/resolvers/yup";
+import { getTodoSchema } from "../../schemas/todo";
 import { ToDoFormFields } from '../ToDoFormFields/ToDoFormFields';
 
 export function TodoForm({ onCreate, todo = {} }) {
@@ -10,6 +12,7 @@ export function TodoForm({ onCreate, todo = {} }) {
     const [customCategory, setCustom] = useState("");
 
     const { register, handleSubmit, reset, formState:{errors} } = useForm({
+        resolver: yupResolver(getTodoSchema({isNew:true})),
         defaultValues:{
             description:"",
             deadline:"",
