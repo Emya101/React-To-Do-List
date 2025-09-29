@@ -1,5 +1,5 @@
 import { TodoForm } from './Components/ToDo/TodoForm'
-import { useState } from 'react'
+import { useEffect,useState } from 'react'
 import styles from './App.module.css'
 import { TodoList } from './Components/ToDoForm/TodoList/TodoList';
 import { ToDoFilters } from './Components/ToDoFilters/ToDoFilters';
@@ -55,12 +55,19 @@ function App() {
   const [filters, setFilters] = useState({ completed: "", priority: "" })
   const [theme, setTheme] = useState("light");
 
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    setTheme(savedTheme);
+    document.body.classList.toggle("dark-mode", savedTheme === "dark");
+  }, []);
+
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
 
     // Toggle a class on the body
     document.body.classList.toggle("dark-mode", newTheme === "dark");
+    localStorage.setItem("theme", newTheme);
   }
 
   function handleCreate(newTodo) {
