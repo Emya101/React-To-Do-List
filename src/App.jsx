@@ -42,7 +42,10 @@ const TODOS_DEFAULT = [{
 
 function App() {
 
-  const [todos, setTodos] = useState(TODOS_DEFAULT);
+  const [todos, setTodos] = useState(()=>{
+    const saved= localStorage.getItem("todos");
+    return saved ? JSON.parse(saved) : TODOS_DEFAULT;
+  });
   const [filters, setFilters] = useState({ completed: "", priority: "" })
   const [theme, setTheme] = useState("light");
 
@@ -51,6 +54,10 @@ function App() {
     setTheme(savedTheme);
     document.body.classList.toggle("dark-mode", savedTheme === "dark");
   }, []);
+
+  useEffect(()=>{
+    localStorage.setItem("todos",JSON.stringify(todos));
+  },[todos]);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
