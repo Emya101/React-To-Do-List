@@ -5,10 +5,12 @@ import styles from './TodoListItem.module.css'
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getTodoSchema } from "../../schemas/todo";
 import { useState, useEffect } from "react";
+import { ConfirmDialog } from "../ConfirmDialog/ConfirmDialog";
 
 export function TodoListItem({ todo, onUpdate, onDelete }) {
 
     const [isEditing, setIsEditing] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const [category, setCategory] = useState(todo.category || "");
     const [customCategory, setCustom] = useState(todo.customCategory || "");
@@ -30,6 +32,11 @@ export function TodoListItem({ todo, onUpdate, onDelete }) {
         });
 
         setIsEditing(false);
+    }
+
+    function handleDeleteConfirmed() {
+        onDelete(todo.id);
+        setShowConfirm(false);
     }
 
     const viewingTemplate = (
@@ -61,7 +68,7 @@ export function TodoListItem({ todo, onUpdate, onDelete }) {
             </div>
             <div className={styles.Controls}>
                 <button title="Edit task" onClick={() => setIsEditing(true)} >✏️</button>
-                <button title="Delete task" onClick={() => onDelete(todo.id)}>🗑️</button>
+                <button title="Delete task" onClick={() => setShowConfirm(true)}>🗑️</button>
             </div>
         </div>
     )
@@ -84,6 +91,14 @@ export function TodoListItem({ todo, onUpdate, onDelete }) {
     return (
         <li className={styles.TodoListItem} data-completed={todo.completed}>
             {isEditing ? editingTemplate : viewingTemplate}
+
+            {showConfirm && (
+                <ConfirmDialog
+                    message={`Do you want to delete this task "${todo.name}"?`}
+                    onConfirm={handleDeleteConfirmed}
+                    onCancel={() => setShowConfirm(false)}
+                />
+            )}
         </li>
     )
 }

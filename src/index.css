@@ -10,16 +10,16 @@
 }
 
 body.dark-mode {
-  --bg-color: #121212;        /* dark background */
-  --text-color: #f0e9e9;      /* light text */
+  --bg-color: #121212;        
+  --text-color: #f0e9e9;      
   --primary-color: #3399ff;
 
-   --app-bg: #222222;       /* Inverted color for App container */
+   --app-bg: #222222;       
   --app-text: #d1d1d1;
 
-  --card-bg: #1e1e1e;         /* dark card background */
-  --input-bg: #868686;        /* input fields dark */
-  --border-color: #555;       /* darker borders */
+  --card-bg: #1e1e1e;         
+  --input-bg: #868686;        
+  --border-color: #555;       
 }
 
 * {
