@@ -1,5 +1,5 @@
 import { TodoForm } from './Components/ToDo/TodoForm'
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './App.module.css'
 import { TodoList } from './Components/ToDoForm/TodoList/TodoList';
 import { ToDoFilters } from './Components/ToDoFilters/ToDoFilters';
@@ -137,7 +137,8 @@ function App() {
   return (
     <div className={`${styles.App} ${styles[theme]}}`}>
       <header className={styles.Header}>
-        <img className={styles.Logo} src="/to-do-list.png" />
+        <img className={styles.Logo} src={`${import.meta.env.BASE_URL}to-do-list.png`}
+        />
         <span>
           <h2 className={styles.Title}>To-Do App</h2>
 
