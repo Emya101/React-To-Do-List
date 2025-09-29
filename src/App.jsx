@@ -7,9 +7,9 @@ import todoLogo from "./assets/to-do-list.png";
 
 const TODOS_DEFAULT = [{
   id: "1",
-  name: "Buy an Ice Cream",
-  description: "Buy the white/vanilla one",
-  deadline: "2025-09-12",
+  name: "Example Task 1",
+  description: "Benchmark for user",
+  deadline: "2025-09-30",
   priority: "high",
   status: "Not-Started",
   category: "work",
@@ -18,9 +18,9 @@ const TODOS_DEFAULT = [{
   createdAt: "2025-09-10, 10:45:22 a.m."
 }, {
   id: "2",
-  name: "Bring in my car",
-  description: "The 2015 Lambo",
-  deadline: "2025-10-12",
+  name: "Example Task 2",
+  description: "Benchmark for user",
+  deadline: "2025-10-30",
   priority: "medium",
   status: "Not-Started",
   category: "personal",
@@ -29,7 +29,7 @@ const TODOS_DEFAULT = [{
   createdAt: "2025-09-10, 10:47:22 a.m."
 }, {
   id: "3",
-  name: "Finish this app",
+  name: "App completion",
   description: "Emoticonquotes",
   deadline: "2025-09-13",
   priority: "high",
@@ -38,15 +38,6 @@ const TODOS_DEFAULT = [{
   completed: true,
   previousStatus: "In-Progress",
   createdAt: "2025-10-10, 10:45:22 a.m."
-}, {
-  id: "4",
-  name: "develop nukes",
-  description: "",
-  deadline: "",
-  priority: "none",
-  status: "",
-  category: "",
-  completed: false,
 }]
 
 function App() {
