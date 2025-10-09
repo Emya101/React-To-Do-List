@@ -9,27 +9,55 @@ function App() {
 
   const [todos, setTodos] = useState([]);
 
-  function fetchTodos() {
-    fetch(`${import.meta.env.VITE_MOCKAPI_BASE_URL}/todos`, {
+  async function fetchTodos() {
+  const searchParams = new URLSearchParams(filters).toString();
+  const url = `${import.meta.env.VITE_MOCKAPI_BASE_URL}/todos?${searchParams}`;
+
+  try {
+    const response = await fetch(url, {
       method: 'GET',
       headers: { 'content-type': 'application/json' },
-    }).then((response) => !!response.ok && response.json())
-      .then((todos) => setTodos(todos));
-  };
+    });
+
+    // MockAPI sometimes returns 404 when no records match
+    if (response.status === 404) {
+      console.warn("No todos found for filters:", filters);
+      setTodos([]); // set empty list gracefully
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch todos: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // Make sure data is an array
+    if (Array.isArray(data)) {
+      setTodos(data);
+    } else {
+      console.warn("Unexpected response format:", data);
+      setTodos([]);
+    }
+  } catch (error) {
+    console.error("Error fetching todos:", error);
+    setTodos([]); // always keep it safe
+  }
+}
+
 
   const [filters, setFilters] = useState({ completed: "", priority: "" })
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    fetchTodos();
     const savedTheme = localStorage.getItem("theme") || "light";
     setTheme(savedTheme);
     document.body.classList.toggle("dark-mode", savedTheme === "dark");
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
+    fetchTodos();
+  }, [filters]);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -145,18 +173,6 @@ function handleDelete(id) {
       .catch (error=> console.error(error));
 }
 
-function filterTodos(todo) {
-  const { completed, priority, category } = filters;
-
-  return (
-    (completed === "" || todo.completed === completed)
-    &&
-    (priority === "" || todo.priority === priority)
-    &&
-    (category === "" || todo.category === category)
-  );
-}
-
 return (
   <div className={`${styles.App} ${styles[theme]}}`}>
     <header className={styles.Header}>
@@ -175,7 +191,7 @@ return (
 
     <div className={styles.AppContainer}><TodoForm onCreate={handleCreate} />
       <ToDoFilters onFilter={setFilters} todos={todos} />
-      <TodoList todos={todos.filter(filterTodos)} onUpdate={handleUpdate} onDelete={handleDelete} />
+      <TodoList todos={todos} onUpdate={handleUpdate} onDelete={handleDelete} />
     </div>
   </div>
 )

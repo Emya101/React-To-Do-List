@@ -22,7 +22,7 @@ export function ToDoFilters({ onFilter, todos = [] }) {
             category: category === 'all' ? '' : category,
         }
         onFilter(filters);
-    }, [completed, priority, category, todos])
+    }, [completed, priority, category])
 
     return (
         <section>
