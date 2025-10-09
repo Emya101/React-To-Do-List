@@ -30,17 +30,28 @@ export function TodoForm({ onCreate, todo = {} }) {
     }, [todo])
 
     function handleCreate(data) {
-        const finalCategory = category === "custom" ? customCategory || "" : category;
+    const finalCategory = category === "custom" ? (customCategory || "Other") : (category || "");
+    const finalTodo = {
+        id: Date.now().toString(), // simple unique id for demo
+        name: data.name || "Untitled",
+        description: data.description || "",
+        deadline: data.deadline || "",
+        priority: data.priority || PRIORITY_DEFAULT,
+        status: data.status || "Not-Started",
+        completed: data.completed || false,
+        category: finalCategory,
+        customCategory: category === "custom" ? customCategory : "",
+        createdAt: new Date().toLocaleString(),
+    };
 
-        onCreate({...data,
-            category: finalCategory,
-            customCategory: category === "custom" ? customCategory : "",
-        }
-        );
-        reset();
-        setCategory("");
-        setCustom("");
-    }
+    onCreate(finalTodo);
+
+    // reset form and category states
+    reset();
+    setCategory("");
+    setCustom("");
+}
+
     return (
         <section>
             <div className={styles.Title}>
