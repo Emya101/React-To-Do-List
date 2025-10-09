@@ -5,59 +5,34 @@ import { TodoList } from './Components/ToDoForm/TodoList/TodoList';
 import { ToDoFilters } from './Components/ToDoFilters/ToDoFilters';
 import todoLogo from "./assets/to-do-list.png";
 
-const TODOS_DEFAULT = [{
-  id: "1",
-  name: "Example Task 1",
-  description: "Benchmark for user",
-  deadline: "2025-09-30",
-  priority: "high",
-  status: "Not-Started",
-  category: "work",
-  completed: false,
-  previousStatus: "Not-Started",
-  createdAt: "2025-09-10, 10:45:22 a.m."
-}, {
-  id: "2",
-  name: "Example Task 2",
-  description: "Benchmark for user",
-  deadline: "2025-10-30",
-  priority: "medium",
-  status: "Not-Started",
-  category: "personal",
-  completed: false,
-  previousStatus: "Not-Started",
-  createdAt: "2025-09-10, 10:47:22 a.m."
-}, {
-  id: "3",
-  name: "App completion",
-  description: "Emoticonquotes",
-  deadline: "2025-09-13",
-  priority: "high",
-  status: "Completed",
-  category: "work",
-  completed: true,
-  previousStatus: "In-Progress",
-  createdAt: "2025-10-10, 10:45:22 a.m."
-}]
-
 function App() {
 
-  const [todos, setTodos] = useState(()=>{
-    const saved= localStorage.getItem("todos");
-    return saved ? JSON.parse(saved) : TODOS_DEFAULT;
+  const [todos, setTodos] = useState(() => {
+    const saved = localStorage.getItem("todos");
+    return saved ? JSON.parse(saved) : [];
   });
+
+  function fetchTodos() {
+    fetch(`${import.meta.env.VITE_MOCKAPI_BASE_URL}/todos`, {
+      method: 'GET',
+      headers: { 'content-type': 'application/json' },
+    }).then((response) => !!response.ok && response.json())
+      .then((todos) => setTodos(todos));
+  };
+
   const [filters, setFilters] = useState({ completed: "", priority: "" })
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
+    fetchTodos();
     const savedTheme = localStorage.getItem("theme") || "light";
     setTheme(savedTheme);
     document.body.classList.toggle("dark-mode", savedTheme === "dark");
   }, []);
 
-  useEffect(()=>{
-    localStorage.setItem("todos",JSON.stringify(todos));
-  },[todos]);
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
