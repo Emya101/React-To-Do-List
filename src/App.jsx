@@ -94,11 +94,8 @@ function App() {
   }
 
   function handleDelete(id) {
-    fetch(`${import.meta.env.VITE_MOCKAPI_BASE_URL}/todos/${id}`, {
-      method: 'DELETE',
-    }).then((response) => {
-      if (!response.ok) throw new Error("Failed to create todo");
-      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    api.todos.delete(id).then(() => {
+      setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
     })
       .catch(error => console.error(error));
   }
