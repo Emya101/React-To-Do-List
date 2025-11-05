@@ -53,11 +53,13 @@ export function TodoListItem({ todo, onUpdate, onDelete }) {
                 </div>
                 {todo.description && <span className={styles.Description}>Description: {todo.description}</span>}
                 <div className={styles.AdditionalInfo}>
-                    {todo.deadline && (<span>Deadline: {todo.deadline}</span>)}
-                    {todo.priority !== PRIORITY_DEFAULT && (<span> Priority: <span style={{ color: PRIORITIES[todo.priority].color }}>
-                        {PRIORITIES[todo.priority].label}
-                    </span>
-                    </span>
+                    {PRIORITIES[todo.priority] && todo.priority !== PRIORITY_DEFAULT && (
+                        <span>
+                            Priority:{" "}
+                            <span style={{ color: PRIORITIES[todo.priority].color }}>
+                                {PRIORITIES[todo.priority].label}
+                            </span>
+                        </span>
                     )}
                     Status: {todo.status != "" && todo.status}<br />
                     {todo.category && (

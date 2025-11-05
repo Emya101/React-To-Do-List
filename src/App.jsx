@@ -55,7 +55,7 @@ function App() {
         merged.previousStatus = changes.status;
       }
     }
-
+    
     if ("completed" in changes && !("status" in changes)) {
       if (changes.completed) {
         merged.previousStatus =
