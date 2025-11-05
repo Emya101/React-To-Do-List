@@ -10,8 +10,13 @@ function App() {
 
   const [todos, setTodos] = useState([]);
 
-  function fetchTodos() {
-    api.todos.getAll(filters).then((data) => setTodos(data));
+  async function fetchTodos() {
+    try {
+      const data= await api.todos.getAll(filters)
+      setTodos(data)
+    } catch (error) {
+      console.log("Failed to get todo's, Please try again");
+    }
   }
 
 
@@ -37,9 +42,13 @@ function App() {
     localStorage.setItem("theme", newTheme);
   }
 
-  function handleCreate(newTodo) {
-    api.todos.create(newTodo).then(fetchTodos)
-      .catch(error => console.error(error));
+  async function handleCreate(newTodo) {
+    try {
+      await api.todos.create(newTodo)
+      await fetchTodos()
+    } catch (error) {
+      console.log("Failed to create todo, Please try again later.")
+    }
   }
 
   function mergeTodoLogic(todo, changes) {
@@ -93,11 +102,14 @@ function App() {
     }
   }
 
-  function handleDelete(id) {
-    api.todos.delete(id).then(() => {
-      setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
-    })
-      .catch(error => console.error(error));
+  async function handleDelete(id) {
+    try {
+      await api.todos.delete(id)
+      await fetchTodos();
+    } catch (error) {
+      console.log("Failed to delete todo, Please try again");
+    }
+
   }
 
   return (
