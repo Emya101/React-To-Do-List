@@ -4,13 +4,14 @@ import { api } from '../api';
 
 export function useTodos(){
      const [todos, setTodos] = useState([]);
+     const [errorMessage, setErrorMessage]=useState();
     
       async function fetchTodos() {
         try {
           const data= await api.todos.getAll(filters)
           setTodos(data)
         } catch (error) {
-          console.log("Failed to get todo's, Please try again");
+          setErrorMessage("Failed to get todo's, Please try again");
         }
       }
     
@@ -27,6 +28,13 @@ export function useTodos(){
       useEffect(() => {
         fetchTodos();
       }, [filters]);
+
+      useEffect(()=>{
+        if(errorMessage){
+          const timer= setTimeout(()=>setErrorMessage(""),4000);
+          return ()=>clearTimeout(timer);
+        }
+      },[errorMessage]);
     
       const toggleTheme = () => {
         const newTheme = theme === "light" ? "dark" : "light";
@@ -42,7 +50,7 @@ export function useTodos(){
           await api.todos.create(newTodo)
           await fetchTodos()
         } catch (error) {
-          console.log("Failed to create todo, Please try again later.")
+          setErrorMessage("Failed to create todo, Please try again later.")
         }
       }
     
@@ -93,7 +101,7 @@ export function useTodos(){
             prevTodos.map(t => (t.id === id ? serverTodo : t))
           );
         } catch (error) {
-          console.error("Error updating todo:", error);
+          setErrorMessage("Error updating todo:", error);
         }
       }
     
@@ -102,7 +110,7 @@ export function useTodos(){
           await api.todos.delete(id)
           await fetchTodos();
         } catch (error) {
-          console.log("Failed to delete todo, Please try again");
+          setErrorMessage("Failed to delete todo, Please try again");
         }
     
       }
@@ -114,6 +122,10 @@ export function useTodos(){
         create: handleCreate,
         update: handleUpdate,
         delete: handleDelete,
+        error:{
+          message:errorMessage,
+          clear:()=>setErrorMessage(""),
+        },
         theme,
         toggleTheme,
       }
